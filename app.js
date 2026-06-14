@@ -13,6 +13,7 @@ const globalErrorHandler = require('./controller/ErrorControler');
 
 const TourRouter = require(`${__dirname}/routes/tourRoutes`);
 const UserRouter = require(`${__dirname}/routes/userRoutes`);
+const ReviewRouter = require(`${__dirname}/routes/reviewRoutes`);
 //-------------1) GLOBAL MIDDELEWARES------------------
 // Set security HTTP method
 app.use(helmet());
@@ -67,6 +68,7 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/tours', TourRouter);
 app.use('/api/v1/users', UserRouter);
+app.use('/api/v1/reviews', ReviewRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`can't find ${req.originalUrl} on this server!`, 404));
