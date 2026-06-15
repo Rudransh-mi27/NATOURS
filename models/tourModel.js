@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const User = require('./userModel');
+
+const Review = require('./reviewModel');
+
 const tourSchema = new mongoose.Schema(
   {
     name: {
@@ -79,29 +82,34 @@ const tourSchema = new mongoose.Schema(
     startLocation: {
       type: {
         type: String,
-        default: 'point',
-        enum: ['point'],
+        default: 'Point',
+        enum: ['Point'],
       },
       coordinates: [Number],
       address: String,
       description: String,
     },
-    location: {
-      type: {
-        type: String,
-        default: 'point',
-        enum: ['point'],
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+        day: Number,
       },
-      coordinates: [Number],
-      address: String,
-      description: String,
-      day: Number,
-    },
+    ],
     guides: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
-    rating: {
-      type: Number,
-      default: 4.5,
-    },
+
+    rating: [
+      {
+        type: Number,
+        default: 4.5,
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -110,6 +118,12 @@ const tourSchema = new mongoose.Schema(
 );
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
+});
+
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
 });
 
 tourSchema.pre('save', function (next) {
