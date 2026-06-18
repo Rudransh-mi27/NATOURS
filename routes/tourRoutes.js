@@ -4,6 +4,9 @@ const tourcontrol = require(`${__dirname}/../controller/tourControler`);
 const Router = express.Router();
 const authController = require('../controller/authControler');
 const reviewController = require('../controller/reviewControler');
+const ReviewRouter = require('./reviewRoutes');
+
+Router.use('/:tourId/reviews', ReviewRouter);
 
 Router.route('/top-5-cheap').get(
   tourcontrol.aliasTopTours,
@@ -29,12 +32,5 @@ Router.route(`/:id`)
 // app.get(`/api/v1/tours/:x`, getTourbyid);
 // app.patch('/api/v1/tours/:x', updatedTour);
 // app.delete('/api/v1/tours/:x', deleteTour);
-Router.route('/:tourId/reviews')
-
-  .post(
-    authController.protect,
-    authController.restrictTo('user'),
-    reviewController.createReview,
-  );
 
 module.exports = Router;
