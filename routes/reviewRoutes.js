@@ -12,5 +12,5 @@ Router.route('/')
     authControler.restrictTo('user'),
     reviewControler.createReview,
   );
-console.log('someting');
+
 module.exports = Router;
