@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
+const factory = require('./handlerFactory');
 
 const catchAsync = require('../utils/catchAsync');
 
@@ -76,9 +77,4 @@ exports.updatedUser = (req, res) => {
   });
 };
 
-exports.deleteUser = (req, res) => {
-  res.status(500).json({
-    status: 'succses',
-    message: 'Not updated yet',
-  });
-};
+exports.deleteUser = factory.deleteOne(User);

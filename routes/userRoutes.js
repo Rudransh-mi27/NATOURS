@@ -19,7 +19,7 @@ Router.delete('/deleteMe', authControler.protect, usercontrol.deleteMe);
 
 Router.route(`/`).get(usercontrol.getUsers).post(usercontrol.createUser);
 
-Router.route(`/:x`)
+Router.route(`/:id`)
   .get(usercontrol.getUserbyid)
   .patch(usercontrol.updatedUser)
   .delete(usercontrol.deleteUser);
