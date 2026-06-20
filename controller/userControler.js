@@ -70,11 +70,6 @@ exports.getUserbyid = (req, res) => {
   });
 };
 
-exports.updatedUser = (req, res) => {
-  res.status(500).json({
-    status: 'succses',
-    message: 'Not updated yet',
-  });
-};
+exports.updatedUser = factory.updateone(User);
 
 exports.deleteUser = factory.deleteOne(User);
