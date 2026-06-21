@@ -12,16 +12,17 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getUsers = catchAsync(async (req, res, next) => {
-  const user = await User.find();
-  res.status(200).json({
-    status: 'succses',
-    results: user.length,
-    data: {
-      user,
-    },
-  });
-});
+exports.getUsers = factory.getAll(User);
+// exports.getUsers = catchAsync(async (req, res, next) => {
+//   const user = await User.find();
+//   res.status(200).json({
+//     status: 'succses',
+//     results: user.length,
+//     data: {
+//       user,
+//     },
+//   });
+// });
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1 if user POSTs password then create a error
@@ -63,12 +64,7 @@ exports.createUser = (req, res) => {
   });
 };
 
-exports.getUserbyid = (req, res) => {
-  res.status(500).json({
-    status: 'succses',
-    message: 'Not updated yet',
-  });
-};
+exports.getUserbyid = factory.getOne(User);
 
 exports.updatedUser = factory.updateone(User);
 
