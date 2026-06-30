@@ -6,18 +6,23 @@ const authController = require('../controller/authControler');
 const reviewController = require('../controller/reviewControler');
 const ReviewRouter = require('./reviewRoutes');
 
+Router.route('/tours-within/:distance/center/:latlng/unit/:unit').get(
+  tourcontrol.getToursWithin,
+);
 Router.use('/:tourId/reviews', ReviewRouter);
 
 Router.route('/top-5-cheap').get(
   tourcontrol.aliasTopTours,
   tourcontrol.getTours,
 );
+
 Router.route('/tour-stats').get(tourcontrol.getTourStats);
 Router.route('/monthly-plan/:year').get(
   authController.protect,
   authController.restrictTo('admin', 'lead-guide', 'guide'),
   tourcontrol.getMonthlyPlan,
 );
+
 // Router.param('x',tourcontrol.checkID)
 Router.route(`/`)
   .get(tourcontrol.getTours)
