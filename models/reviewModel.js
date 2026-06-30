@@ -19,6 +19,7 @@ const reviewSchema = new mongoose.Schema({
     required: [true, 'A review must belong to a user'],
   },
 });
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 
 reviewSchema.statics.calcAverageRating = async function (tourId) {
   const stats = await this.aggregate([
