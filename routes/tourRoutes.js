@@ -9,6 +9,8 @@ const ReviewRouter = require('./reviewRoutes');
 Router.route('/tours-within/:distance/center/:latlng/unit/:unit').get(
   tourcontrol.getToursWithin,
 );
+Router.route('/distances/:latlng/unit/:unit').get(tourcontrol.getDistances);
+
 Router.use('/:tourId/reviews', ReviewRouter);
 
 Router.route('/top-5-cheap').get(
