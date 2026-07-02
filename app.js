@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const app = express();
 const morgan = require('morgan');
@@ -14,7 +15,11 @@ const globalErrorHandler = require('./controller/ErrorControler');
 const TourRouter = require(`${__dirname}/routes/tourRoutes`);
 const UserRouter = require(`${__dirname}/routes/userRoutes`);
 const ReviewRouter = require(`${__dirname}/routes/reviewRoutes`);
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 //-------------1) GLOBAL MIDDELEWARES------------------
+app.use(express.static(path.join(__dirname, 'public')));
 // Set security HTTP method
 app.use(helmet());
 
@@ -55,7 +60,6 @@ app.use(
 );
 
 // Serving static file
-app.use(express.static(`${__dirname}/public`));
 
 // Testing middleware
 app.use((req, res, next) => {
@@ -65,7 +69,9 @@ app.use((req, res, next) => {
 });
 
 //---------------3) ROUTERS---------------------------
-
+app.get('/', (req, res, next) => {
+  res.status(200).render('base');
+});
 app.use('/api/v1/tours', TourRouter);
 app.use('/api/v1/users', UserRouter);
 app.use('/api/v1/reviews', ReviewRouter);
