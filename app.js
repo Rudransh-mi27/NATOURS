@@ -70,8 +70,24 @@ app.use((req, res, next) => {
 
 //---------------3) ROUTERS---------------------------
 app.get('/', (req, res, next) => {
-  res.status(200).render('base');
+  res.status(200).render('base', {
+    tour: 'The Forest Hiker',
+    user: 'Rudransh',
+  });
 });
+
+app.get('/overview', (req, res, next) => {
+  res.status(200).render('overview', {
+    title: 'All tours',
+  });
+});
+
+app.get('/tour', (req, res, next) => {
+  res.status(200).render('tour', {
+    title: 'The Forest Hiker tour',
+  });
+});
+
 app.use('/api/v1/tours', TourRouter);
 app.use('/api/v1/users', UserRouter);
 app.use('/api/v1/reviews', ReviewRouter);
