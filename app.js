@@ -9,6 +9,8 @@ const mongoSanitization = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 
+const cookieParser = require('cookie-parser');
+
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controller/ErrorControler');
 
@@ -22,7 +24,7 @@ app.set('views', path.join(__dirname, 'views'));
 //-------------1) GLOBAL MIDDELEWARES------------------
 app.use(express.static(path.join(__dirname, 'public')));
 // Set security HTTP method
-app.use(helmet());
+// app.use(helmet());
 
 // Development login
 if (process.env.NODE_ENV === 'development') {
@@ -39,6 +41,7 @@ app.use('/api', limiter);
 
 // Body parser, readind data from body into req.body
 app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser());
 
 // Data sanitization against NoSQL injection query
 app.use(mongoSanitization());
@@ -65,7 +68,7 @@ app.use(
 // Testing middleware
 app.use((req, res, next) => {
   const requestedAt = new Date().toISOString();
-
+  console.log(req.cookies);
   next();
 });
 
