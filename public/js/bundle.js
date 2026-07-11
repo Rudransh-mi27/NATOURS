@@ -8264,7 +8264,7 @@ exports.ShowAlert = ShowAlert;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.login = void 0;
+exports.login = exports.logOut = void 0;
 var _axios = _interopRequireDefault(require("axios"));
 var _alerts = require("./alerts");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
@@ -8291,6 +8291,18 @@ const login = async (email, password) => {
   }
 };
 exports.login = login;
+const logOut = async () => {
+  try {
+    const res = await (0, _axios.default)({
+      method: 'GET',
+      url: 'http://127.0.0.1:3000/api/v1/users/logout'
+    });
+    if (res.data.status === 'success') location.reload(true);
+  } catch (err) {
+    (0, _alerts.ShowAlert)('error', 'Error logging out! Try again later');
+  }
+};
+exports.logOut = logOut;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
@@ -8307,12 +8319,14 @@ var _login = require("./login");
 /* eslint-disable */
 
 const loginForm = document.querySelector('.form');
+const logOutBtn = document.querySelector('.nav__el--logout');
 if (loginForm) loginForm.addEventListener('submit', e => {
   e.preventDefault();
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
   (0, _login.login)(email, password);
 });
+if (logOutBtn) logOutBtn.addEventListener('click', _login.logOut);
 },{"core-js/modules/es7.array.flat-map.js":"../../node_modules/core-js/modules/es7.array.flat-map.js","core-js/modules/es6.array.sort.js":"../../node_modules/core-js/modules/es6.array.sort.js","core-js/modules/es7.promise.finally.js":"../../node_modules/core-js/modules/es7.promise.finally.js","core-js/modules/es7.symbol.async-iterator.js":"../../node_modules/core-js/modules/es7.symbol.async-iterator.js","core-js/modules/es7.string.trim-left.js":"../../node_modules/core-js/modules/es7.string.trim-left.js","core-js/modules/es7.string.trim-right.js":"../../node_modules/core-js/modules/es7.string.trim-right.js","core-js/modules/web.timers.js":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate.js":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable.js":"../../node_modules/core-js/modules/web.dom.iterable.js","./login":"login.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -8338,7 +8352,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56543" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63093" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

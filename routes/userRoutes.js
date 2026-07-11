@@ -6,6 +6,8 @@ const usercontrol = require(`${__dirname}/../controller/userControler`);
 const Router = express.Router();
 Router.post('/signup', authControler.signup);
 Router.post('/login', authControler.login);
+Router.get('/logout', authControler.loggedOut);
+
 Router.post('/forgotPassword', authControler.forgotPassword);
 Router.patch('/resetPassword/:token', authControler.resetPassword);
 
