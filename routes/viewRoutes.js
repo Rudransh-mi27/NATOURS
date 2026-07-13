@@ -12,4 +12,10 @@ Router.get('/login', authControler.isLoggedIn, viewControler.getLoginForm);
 
 Router.get('/me', authControler.protect, viewControler.getAccount);
 
+Router.post(
+  '/submit-user-data',
+  authControler.protect,
+  viewControler.updateUserData,
+);
+
 module.exports = Router;

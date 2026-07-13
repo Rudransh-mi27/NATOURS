@@ -8318,7 +8318,7 @@ require("core-js/modules/web.dom.iterable.js");
 var _login = require("./login");
 /* eslint-disable */
 
-const loginForm = document.querySelector('.form');
+const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 if (loginForm) loginForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -8352,7 +8352,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58860" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65402" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
