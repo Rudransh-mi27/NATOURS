@@ -8303,6 +8303,36 @@ const logOut = async () => {
   }
 };
 exports.logOut = logOut;
+},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"updateSettings.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateData = void 0;
+var _axios = _interopRequireDefault(require("axios"));
+var _alerts = require("./alerts");
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+/* eslint-disable */
+
+const updateData = async (name, email) => {
+  try {
+    const res = await (0, _axios.default)({
+      method: 'PATCH',
+      url: 'http://127.0.0.1:3000/api/v1/users/updateMe',
+      data: {
+        name,
+        email
+      }
+    });
+    if (res.data.status == 'success') {
+      (0, _alerts.ShowAlert)('success', 'Data added successfully!');
+    }
+  } catch (err) {
+    (0, _alerts.ShowAlert)('error', err.response.data.message);
+  }
+};
+exports.updateData = updateData;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
@@ -8316,10 +8346,12 @@ require("core-js/modules/web.timers.js");
 require("core-js/modules/web.immediate.js");
 require("core-js/modules/web.dom.iterable.js");
 var _login = require("./login");
+var _updateSettings = require("./updateSettings");
 /* eslint-disable */
 
 const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
+const userDataForm = document.querySelector('.form-user-data');
 if (loginForm) loginForm.addEventListener('submit', e => {
   e.preventDefault();
   const email = document.getElementById('email').value;
@@ -8327,7 +8359,13 @@ if (loginForm) loginForm.addEventListener('submit', e => {
   (0, _login.login)(email, password);
 });
 if (logOutBtn) logOutBtn.addEventListener('click', _login.logOut);
-},{"core-js/modules/es7.array.flat-map.js":"../../node_modules/core-js/modules/es7.array.flat-map.js","core-js/modules/es6.array.sort.js":"../../node_modules/core-js/modules/es6.array.sort.js","core-js/modules/es7.promise.finally.js":"../../node_modules/core-js/modules/es7.promise.finally.js","core-js/modules/es7.symbol.async-iterator.js":"../../node_modules/core-js/modules/es7.symbol.async-iterator.js","core-js/modules/es7.string.trim-left.js":"../../node_modules/core-js/modules/es7.string.trim-left.js","core-js/modules/es7.string.trim-right.js":"../../node_modules/core-js/modules/es7.string.trim-right.js","core-js/modules/web.timers.js":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate.js":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable.js":"../../node_modules/core-js/modules/web.dom.iterable.js","./login":"login.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+if (_updateSettings.updateData) userDataForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  (0, _updateSettings.updateData)(name, email);
+});
+},{"core-js/modules/es7.array.flat-map.js":"../../node_modules/core-js/modules/es7.array.flat-map.js","core-js/modules/es6.array.sort.js":"../../node_modules/core-js/modules/es6.array.sort.js","core-js/modules/es7.promise.finally.js":"../../node_modules/core-js/modules/es7.promise.finally.js","core-js/modules/es7.symbol.async-iterator.js":"../../node_modules/core-js/modules/es7.symbol.async-iterator.js","core-js/modules/es7.string.trim-left.js":"../../node_modules/core-js/modules/es7.string.trim-left.js","core-js/modules/es7.string.trim-right.js":"../../node_modules/core-js/modules/es7.string.trim-right.js","core-js/modules/web.timers.js":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate.js":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable.js":"../../node_modules/core-js/modules/web.dom.iterable.js","./login":"login.js","./updateSettings":"updateSettings.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -8352,7 +8390,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65402" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55144" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
