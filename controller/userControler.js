@@ -25,6 +25,7 @@ exports.getUsers = factory.getAll(User);
 // });
 
 exports.updateMe = catchAsync(async (req, res, next) => {
+  
   // 1 if user POSTs password then create a error
   if (req.body.password || req.body.passwordConfirm) {
     return next(
