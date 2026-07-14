@@ -1,12 +1,13 @@
 /* eslint-disable */
 import { login, logOut } from './login';
-import { updateData } from './updateSettings';
+import { updateSettings } from './updateSettings';
 
 import '@babel/polyfill';
 
 const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
+const userPassswordForm = document.querySelector('.form-user-password');
 
 if (loginForm)
   loginForm.addEventListener('submit', (e) => {
@@ -18,10 +19,30 @@ if (loginForm)
 
 if (logOutBtn) logOutBtn.addEventListener('click', logOut);
 
-if (updateData)
+if (userDataForm)
   userDataForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
-    updateData(name, email);
+    updateSettings({ name, email }, 'data');
+  });
+
+if (userPassswordForm)
+  userPassswordForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    document.querySelector('.btn--save--password').textContent = 'Updating...';
+
+    const passwordCurrent = document.getElementById('password-current').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
+    await updateSettings(
+      { passwordCurrent, password, passwordConfirm },
+      'password',
+    );
+
+    document.querySelector('.btn--save--password').textContent =
+      'Save password';
+    document.getElementById('password').value = '';
+    document.getElementById('password-current').value = '';
+    document.getElementById('password-confirm').value = '';
   });

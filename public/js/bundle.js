@@ -8309,30 +8309,28 @@ exports.logOut = logOut;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateData = void 0;
+exports.updateSettings = void 0;
 var _axios = _interopRequireDefault(require("axios"));
 var _alerts = require("./alerts");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 /* eslint-disable */
 
-const updateData = async (name, email) => {
+const updateSettings = async (data, type) => {
   try {
+    const url = type == 'password' ? 'http://127.0.0.1:3000/api/v1/users/updateMyPassword' : 'http://127.0.0.1:3000/api/v1/users/updateMe';
     const res = await (0, _axios.default)({
       method: 'PATCH',
-      url: 'http://127.0.0.1:3000/api/v1/users/updateMe',
-      data: {
-        name,
-        email
-      }
+      url,
+      data
     });
     if (res.data.status == 'success') {
-      (0, _alerts.ShowAlert)('success', 'Data added successfully!');
+      (0, _alerts.ShowAlert)('success', "".concat(type.toUpperCase(), " added successfully!"));
     }
   } catch (err) {
     (0, _alerts.ShowAlert)('error', err.response.data.message);
   }
 };
-exports.updateData = updateData;
+exports.updateSettings = updateSettings;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
@@ -8352,6 +8350,7 @@ var _updateSettings = require("./updateSettings");
 const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
+const userPassswordForm = document.querySelector('.form-user-password');
 if (loginForm) loginForm.addEventListener('submit', e => {
   e.preventDefault();
   const email = document.getElementById('email').value;
@@ -8359,11 +8358,30 @@ if (loginForm) loginForm.addEventListener('submit', e => {
   (0, _login.login)(email, password);
 });
 if (logOutBtn) logOutBtn.addEventListener('click', _login.logOut);
-if (_updateSettings.updateData) userDataForm.addEventListener('submit', e => {
+if (userDataForm) userDataForm.addEventListener('submit', e => {
   e.preventDefault();
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
-  (0, _updateSettings.updateData)(name, email);
+  (0, _updateSettings.updateSettings)({
+    name,
+    email
+  }, 'data');
+});
+if (userPassswordForm) userPassswordForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  document.querySelector('.btn--save--password').textContent = 'Updating...';
+  const passwordCurrent = document.getElementById('password-current').value;
+  const password = document.getElementById('password').value;
+  const passwordConfirm = document.getElementById('password-confirm').value;
+  await (0, _updateSettings.updateSettings)({
+    passwordCurrent,
+    password,
+    passwordConfirm
+  }, 'password');
+  document.querySelector('.btn--save--password').textContent = 'Save password';
+  document.getElementById('password').value = '';
+  document.getElementById('password-current').value = '';
+  document.getElementById('password-confirm').value = '';
 });
 },{"core-js/modules/es7.array.flat-map.js":"../../node_modules/core-js/modules/es7.array.flat-map.js","core-js/modules/es6.array.sort.js":"../../node_modules/core-js/modules/es6.array.sort.js","core-js/modules/es7.promise.finally.js":"../../node_modules/core-js/modules/es7.promise.finally.js","core-js/modules/es7.symbol.async-iterator.js":"../../node_modules/core-js/modules/es7.symbol.async-iterator.js","core-js/modules/es7.string.trim-left.js":"../../node_modules/core-js/modules/es7.string.trim-left.js","core-js/modules/es7.string.trim-right.js":"../../node_modules/core-js/modules/es7.string.trim-right.js","core-js/modules/web.timers.js":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate.js":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable.js":"../../node_modules/core-js/modules/web.dom.iterable.js","./login":"login.js","./updateSettings":"updateSettings.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -8390,7 +8408,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55144" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56399" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
