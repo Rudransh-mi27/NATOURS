@@ -17,7 +17,13 @@ Router.use(authControler.protect);
 Router.get('/me', usercontrol.getMe, usercontrol.getUserbyid);
 
 Router.patch('/updateMypassword', authControler.updatePasssword);
-Router.patch('/updateMe', usercontrol.uploadUserPhoto, usercontrol.updateMe);
+Router.patch(
+  '/updateMe',
+
+  usercontrol.uploadUserPhoto,
+  usercontrol.resizeUserPhoto,
+  usercontrol.updateMe,
+);
 Router.delete('/deleteMe', usercontrol.deleteMe);
 
 Router.use(authControler.restrictTo('admin'));
