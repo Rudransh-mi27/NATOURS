@@ -40,6 +40,8 @@ Router.route(`/:id`)
   .patch(
     authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
+    tourcontrol.uploadTourImages,
+    tourcontrol.resizeToursImages,
     tourcontrol.updatedTour,
   )
   .delete(
