@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const pug = require('pug');
-const htmltotext = require('html-to-text');
+const { convert } = require('html-to-text');
 
 module.exports = class Email {
   constructor(user, url) {
@@ -35,10 +35,10 @@ module.exports = class Email {
     // 2) Define mail options
     const mailOptions = {
       from: this.from,
-      to: this.email,
+      to: this.to,
       subject,
       html,
-      text: htmltotext.fromString(html),
+      text: convert(html),
     };
     // 3) Create a transport and send email
 
